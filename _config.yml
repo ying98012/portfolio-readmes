@@ -1,0 +1,11 @@
+title: Portfolio READMEs
+description: README-only project showcase pages
+url: "https://ying98012.github.io"
+baseurl: "/portfolio-readmes"
+markdown: kramdown
+theme: null
+
+collections:
+  projects:
+    output: true
+    permalink: /:slug/

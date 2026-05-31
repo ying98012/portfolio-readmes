@@ -1,0 +1,33 @@
+---
+layout: default
+---
+<header class="hero">
+  <p class="hero-eyebrow">{{ page.heroEyebrow }}</p>
+  <h1>{{ page.title }}</h1>
+  <p class="hero-desc">{{ page.heroDescription }}</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="{{ page.primaryButtonUrl }}" target="_blank" rel="noreferrer">
+      {{ page.primaryButtonLabel }}
+    </a>
+    <a class="btn btn-secondary" href="{{ page.secondaryButtonUrl }}" target="_blank" rel="noreferrer">
+      {{ page.secondaryButtonLabel }}
+    </a>
+  </div>
+</header>
+
+<header class="header">
+  <h2>{{ page.listTitle }}</h2>
+  <p class="meta">{{ page.listDescription }}</p>
+</header>
+
+{% assign sorted_projects = site.projects | sort: "updatedAt" | reverse %}
+{% for project in sorted_projects %}
+  <section class="card">
+    <h2><a href="{{ project.url | relative_url }}">{{ project.title }}</a></h2>
+    <p>{{ project.summary }}</p>
+    <div class="page-actions">
+      <a class="btn btn-primary" href="{{ project.url | relative_url }}">閱讀 README</a>
+      <a class="btn btn-secondary" href="{{ project.projectUrl }}" target="_blank" rel="noreferrer">回到主站專案頁</a>
+    </div>
+  </section>
+{% endfor %}

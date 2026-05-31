@@ -1,0 +1,50 @@
+---
+layout: default
+---
+<a class="top-link" href="{{ '/' | relative_url }}">&larr; 返回 README 首頁</a>
+<h1>{{ page.title }}</h1>
+<p class="meta">README-only 公開頁面 · Updated {{ page.updatedAt }}</p>
+
+<section class="card">
+  <h2>專案摘要</h2>
+  <p>{{ page.summary }}</p>
+</section>
+
+<section class="card">
+  <h2>技術棧</h2>
+  {% for tech in page.techStack %}
+    <span class="tag">{{ tech }}</span>
+  {% endfor %}
+</section>
+
+<section class="card">
+  <h2>重點功能</h2>
+  <ul>
+    {% for item in page.features %}
+      <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
+</section>
+
+{% if page.videoUrl %}
+  <section class="card">
+    <h2>展示影片</h2>
+    <p><a href="{{ page.videoUrl }}" target="_blank" rel="noreferrer">{{ page.videoUrl }}</a></p>
+  </section>
+{% endif %}
+
+{% if content and content != "" %}
+  <section class="card prose">
+    <h2>README 補充說明</h2>
+    {{ content }}
+  </section>
+{% endif %}
+
+<section class="page-actions">
+  <a class="btn btn-primary" href="{{ page.projectUrl }}" target="_blank" rel="noreferrer">
+    返回主站專案頁
+  </a>
+  <a class="btn btn-secondary" href="{{ '/' | relative_url }}">
+    返回 README 首頁
+  </a>
+</section>
