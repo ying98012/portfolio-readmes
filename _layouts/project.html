@@ -2,48 +2,64 @@
 layout: default
 ---
 <a class="top-link" href="{{ '/' | relative_url }}">&larr; 返回 README 首頁</a>
-<h1>{{ page.title }}</h1>
-<p class="meta">README-only 公開頁面 · Updated {{ page.updatedAt }}</p>
+{% assign project_paths = site.projects | map: "path" %}
+{% assign is_collection_project = false %}
+{% if project_paths contains page.path %}
+  {% assign is_collection_project = true %}
+{% endif %}
 
-<section class="card">
-  <h2>專案摘要</h2>
-  <p>{{ page.summary }}</p>
-</section>
+{% if is_collection_project %}
+  <h1>{{ page.title | default: page.slug | default: page.basename }}</h1>
+  <p class="meta">
+    README-only 公開頁面
+    {% if page.updatedAt %}
+      · Updated {{ page.updatedAt }}
+    {% endif %}
+  </p>
 
-<section class="card">
-  <h2>技術棧</h2>
-  {% for tech in page.techStack %}
-    <span class="tag">{{ tech }}</span>
-  {% endfor %}
-</section>
+  {% if page.summary %}
+    <section class="card">
+      <h2>專案摘要</h2>
+      <p>{{ page.summary }}</p>
+    </section>
+  {% endif %}
 
-<section class="card">
-  <h2>重點功能</h2>
-  <ul>
-    {% for item in page.features %}
-      <li>{{ item }}</li>
-    {% endfor %}
-  </ul>
-</section>
+  {% if page.techStack and page.techStack.size > 0 %}
+    <section class="card">
+      <h2>技術棧</h2>
+      {% for tech in page.techStack %}
+        <span class="tag">{{ tech }}</span>
+      {% endfor %}
+    </section>
+  {% endif %}
 
-{% if page.videoUrl %}
-  <section class="card">
-    <h2>展示影片</h2>
-    <p><a href="{{ page.videoUrl }}" target="_blank" rel="noreferrer">{{ page.videoUrl }}</a></p>
-  </section>
+  {% if page.features and page.features.size > 0 %}
+    <section class="card">
+      <h2>重點功能</h2>
+      <ul>
+        {% for item in page.features %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
 {% endif %}
 
 {% if content and content != "" %}
   <section class="card prose">
-    <h2>README 補充說明</h2>
+    {% if is_collection_project %}
+      <h2>README</h2>
+    {% endif %}
     {{ content }}
   </section>
 {% endif %}
 
 <section class="page-actions">
-  <a class="btn btn-primary" href="{{ page.projectUrl }}" target="_blank" rel="noreferrer">
-    返回主站專案頁
-  </a>
+  {% if is_collection_project and page.projectUrl %}
+    <a class="btn btn-primary" href="{{ page.projectUrl }}" target="_blank" rel="noreferrer">
+      返回主站專案頁
+    </a>
+  {% endif %}
   <a class="btn btn-secondary" href="{{ '/' | relative_url }}">
     返回 README 首頁
   </a>

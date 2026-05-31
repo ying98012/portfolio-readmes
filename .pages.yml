@@ -66,31 +66,24 @@ content:
         label: Slug
         type: string
         required: true
-      - name: summary
-        label: Summary
-        type: text
-        required: true
-      - name: techStack
-        label: Tech Stack
-        type: string
-        list: true
-        required: true
-      - name: features
-        label: Highlights
-        type: string
-        list: true
-        required: true
-      - name: videoUrl
-        label: Video URL
-        type: string
-      - name: projectUrl
-        label: Portfolio Project URL
-        type: string
-        required: true
       - name: updatedAt
         label: Updated At
         type: date
         required: true
+      - name: summary
+        label: Summary (optional)
+        type: text
+      - name: projectUrl
+        label: Portfolio Project URL (optional)
+        type: string
+      - name: techStack
+        label: Tech Stack (optional)
+        type: string
+        list: true
+      - name: features
+        label: Highlights (optional)
+        type: string
+        list: true
       - name: body
-        label: README Content
+        label: README Markdown
         type: rich-text

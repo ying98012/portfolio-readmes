@@ -4,8 +4,26 @@ url: "https://ying98012.github.io"
 baseurl: "/portfolio-readmes"
 markdown: kramdown
 theme: null
+include:
+  - _projects
 
 collections:
   projects:
     output: true
     permalink: /:slug/
+
+defaults:
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: project
+  - scope:
+      path: "_projects"
+      type: pages
+    values:
+      layout: project
+      permalink: /:basename/
+
+optional_front_matter:
+  remove_originals: true

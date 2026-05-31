@@ -22,12 +22,34 @@ layout: default
 
 {% assign sorted_projects = site.projects | sort: "updatedAt" | reverse %}
 {% for project in sorted_projects %}
+  {% assign project_summary = project.summary | default: project.excerpt %}
   <section class="card">
-    <h2><a href="{{ project.url | relative_url }}">{{ project.title }}</a></h2>
-    <p>{{ project.summary }}</p>
+    <h2><a href="{{ project.url | relative_url }}">{{ project.title | default: project.slug | default: project.basename }}</a></h2>
+    {% if project_summary %}
+      <p>{{ project_summary | strip_html | strip_newlines | truncate: 120 }}</p>
+    {% endif %}
     <div class="page-actions">
       <a class="btn btn-primary" href="{{ project.url | relative_url }}">閱讀 README</a>
-      <a class="btn btn-secondary" href="{{ project.projectUrl }}" target="_blank" rel="noreferrer">回到主站專案頁</a>
+      {% if project.projectUrl %}
+        <a class="btn btn-secondary" href="{{ project.projectUrl }}" target="_blank" rel="noreferrer">回到主站專案頁</a>
+      {% endif %}
     </div>
   </section>
+{% endfor %}
+
+{% assign project_paths = site.projects | map: "path" %}
+{% assign imported_markdowns = site.pages | where_exp: "p", "p.path contains '_projects/'" %}
+{% for project in imported_markdowns %}
+  {% unless project_paths contains project.path %}
+    {% assign project_summary = project.summary | default: project.excerpt %}
+    <section class="card">
+      <h2><a href="{{ project.url | relative_url }}">{{ project.title | default: project.basename }}</a></h2>
+      {% if project_summary %}
+        <p>{{ project_summary | strip_html | strip_newlines | truncate: 120 }}</p>
+      {% endif %}
+      <div class="page-actions">
+        <a class="btn btn-primary" href="{{ project.url | relative_url }}">閱讀 README</a>
+      </div>
+    </section>
+  {% endunless %}
 {% endfor %}
