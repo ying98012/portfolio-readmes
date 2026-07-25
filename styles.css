@@ -24,6 +24,17 @@ body {
   padding: 36px 0 60px;
 }
 
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  width: min(900px, 92vw);
+  margin: 0 auto;
+  padding-top: 18px;
+}
+
 .header {
   margin-bottom: 22px;
   padding: 18px 20px;
@@ -125,6 +136,11 @@ a:hover {
 
 .btn-secondary:hover {
   border-color: rgba(125, 211, 252, 0.6);
+}
+
+.cms-entry {
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(8px);
 }
 
 .meta {
@@ -312,6 +328,11 @@ ul {
     padding: 24px 0 38px;
   }
 
+  .site-nav {
+    width: min(900px, 94vw);
+    padding-top: 14px;
+  }
+
   .header {
     padding: 14px 15px;
     border-radius: 14px;
@@ -361,5 +382,9 @@ ul {
 
   .btn {
     width: 100%;
+  }
+
+  .cms-entry {
+    width: auto;
   }
 }

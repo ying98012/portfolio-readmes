@@ -1,6 +1,14 @@
 media:
-  input: assets/uploads
-  output: /uploads
+  - name: uploads
+    label: Uploads
+    input: assets/uploads
+    output: /uploads
+  - name: project_markdowns
+    label: 匯入 Markdown
+    input: _projects
+    output: /_projects
+    extensions: [md]
+    rename: false
 
 content:
   - name: home
@@ -44,7 +52,13 @@ content:
     label: Projects
     type: collection
     path: _projects
-    filename: "{fields.slug}"
+    filename:
+      template: "{fields.slug}.md"
+      field: true
+    operations:
+      create: true
+      rename: true
+      delete: true
     view:
       fields: [title, updatedAt]
       primary: title

@@ -2,8 +2,6 @@
 
 一款基於 Flutter 開發的輕量化、在地優先（Local-First）智慧進銷存管理應用程式。本系統專為**中小型商家與個人自由創業者**設計，旨在極低硬體與營運成本下，提供高追溯性的庫存流水帳管理、財務報表視覺化，以及完全免 API 成本的 AI 經營策略生成建議。
 
-**目前版本**：`0.1.0+6` · **實作進度與測試概況**（366 項 Flutter 測試）→ [PROGRESS.md](PROGRESS.md)
-
 ---
 
 ## ✨ 為什麼選 FlowStock（優勢與實務痛點）
@@ -564,20 +562,3 @@ flutter install -d <deviceId>
 - 儀表板三 KPI ↔ `DailyMetricScreen`（`DashboardDailyMetric`）+ 與 `GetInventorySummaryUseCase` 數字一致
 - 進銷貨 AppBar 聯絡人 + 設定圖示
 - 訂閱中心 ↔ `SubscriptionCubit` 防負評推播排程 + 方案清單
-
-### UI 效能（Stitch 衍生實作優化，2026-07）
-
-Stitch 視覺（左色條卡片、`OrderCard`、Material 3 token）維持不變，底層改為高效列表與細粒度 rebuild：
-
-| 優先 | 範圍 | 作法 |
-| :--- | :--- | :--- |
-| **P0** | 庫存／進貨／銷貨 | 本地搜尋（不每鍵 emit）、`SliverList.builder`、`BlocBuilder.buildWhen` |
-| **P1** | 進出庫表單、流水帳、主殼層 | `BlocSelector` 取代 `context.watch`、交易列表虛擬化、`MainShell` tab 快取 |
-| **P2** | AI 顧問 | 圖表／串流 panel 拆樹 + `RepaintBoundary`、`AdvisorChartLayout` 預聚合、`fl_chart` 切換動畫 |
-| **P3** ⏳ 待優化 | 儀表板、其餘 sheet、庫存雙分頁 | `dashboard_screen` `buildWhen`；`product_form_sheet` 等 `BlocSelector`；`TabBarView` `AutomaticKeepAliveClientMixin` |
-
-P0–P2 已完成且實機體感順暢；**P3 為邊際優化，暫緩實作**，待出現明確卡頓（開表單閃爍、儀表板重繪、庫存 tab 捲動位置重置等）再處理。
-
-Agent 工作流見 [.agents/skills/flowstock-performance/SKILL.md](.agents/skills/flowstock-performance/SKILL.md)；與 `flowstock-ux`、`flowstock-motion`、`flowstock-dev-workflow` 整合。詳見 [PROGRESS.md § Presentation 層 UI 效能](PROGRESS.md#presentation-層-ui-效能2026-07-08)。
-
-畫面清單見 [design/stitch/SCREEN_MANIFEST.md](design/stitch/SCREEN_MANIFEST.md)；試算表匯入入口在庫存 AppBar（非設定頁）。
