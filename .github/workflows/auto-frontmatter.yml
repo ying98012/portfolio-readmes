@@ -1,0 +1,39 @@
+name: Auto front matter for imported Markdown
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "_projects/**/*.md"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-frontmatter
+  cancel-in-progress: false
+
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Add front matter to pure Markdown imports
+        run: python scripts/auto_frontmatter.py
+
+      - name: Commit updated project files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Add front matter for imported Markdown projects."
+          file_pattern: "_projects/*.md"
+          skip_dirty_check: false
