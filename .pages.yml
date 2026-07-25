@@ -28,14 +28,6 @@ content:
         label: Primary Button URL
         type: string
         required: true
-      - name: secondaryButtonLabel
-        label: Secondary Button Label
-        type: string
-        required: true
-      - name: secondaryButtonUrl
-        label: Secondary Button URL
-        type: string
-        required: true
       - name: listTitle
         label: List Title
         type: string
