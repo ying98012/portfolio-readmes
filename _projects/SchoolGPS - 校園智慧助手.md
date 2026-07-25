@@ -1,10 +1,9 @@
 ---
-title: "SchoolGPS"
-slug: "SchoolGPS - 校園智慧助手"
+title: 校園導航與資訊整合平台
+slug: 校園導航與資訊整合平台
 updatedAt: 2026-07-25
 ---
-
-# SchoolGPS
+# 校園導航與資訊整合平台
 
 > 校園室內導航 + AI 校園助手 Android App，以 Kotlin + Jetpack Compose 打造。
 
@@ -13,7 +12,7 @@ updatedAt: 2026-07-25
 ![minSdk](https://img.shields.io/badge/minSdk-26-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-SchoolGPS 結合「自建室內路網 + Dijkstra」、「WiFi / ESP32 雙模式樓層偵測（含手機氣壓輔助）」、「Mapbox 自訂 Tileset」與「AI 校園助手」，解決一般地圖 App 在校園多樓教學大樓內 **GPS 飄移、無樓層（Z 軸）、戶外路網無室內走廊** 三大失效情境。
+「校園導航與資訊整合平台」 結合「自建室內路網 + Dijkstra」、「WiFi / ESP32 雙模式樓層偵測（含手機氣壓輔助）」、「Mapbox 自訂 Tileset」與「AI 校園助手」，解決一般地圖 App 在校園多樓教學大樓內 **GPS 飄移、無樓層（Z 軸）、戶外路網無室內走廊** 三大失效情境。
 
 > **實作範圍**：以國立勤益科技大學（NCUT）工程館為驗證場域，目前實作涵蓋 **B1、1F~7F 共 8 個樓層**（floor 編碼 −1、1~7）。尚未實作 B2 與 8F；`assets/indoor_graph.json` 與各樓 Mapbox Tileset 僅涵蓋此範圍。
 
@@ -33,8 +32,9 @@ SchoolGPS 結合「自建室內路網 + Dijkstra」、「WiFi / ESP32 雙模式�
 
 ### 主要畫面
 
+
 | 畫面 | 說明 |
-|------|------|
+| ---- | ----------------------------- |
 | 首頁 | 入口與功能導覽 |
 | 校園導航 | Mapbox 底圖 + 室內路線 / 樓層圖層 |
 | 聊天助手 | FAQ / 公告 / Gemini 五層分流 |
@@ -42,12 +42,14 @@ SchoolGPS 結合「自建室內路網 + Dijkstra」、「WiFi / ESP32 雙模式�
 | 節點收集 | 現場節點採集輔助 |
 | 設定 | 偵測模式、足跡開關、Gemini 額度 / API Key |
 
+
 ---
 
 ## 技術棧
 
+
 | 項目 | 技術 / 版本 |
-|------|------------|
+| --------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | 語言 | Kotlin 2.2.10 |
 | Android | minSdk 26 / targetSdk 36 / compileSdk 36 / JavaVersion 21 / AGP 9.1.0 |
 | UI | Jetpack Compose（Material 3，無 XML 佈局） |
@@ -62,15 +64,18 @@ SchoolGPS 結合「自建室內路網 + Dijkstra」、「WiFi / ESP32 雙模式�
 | 本機儲存 | Room 2.7.2（足跡）+ SharedPreferences（偵測模式、聊天偏好） |
 | 校網爬蟲 | Python（requests / BeautifulSoup / Playwright）+ GitHub Actions 每小時 cron |
 
+
 ---
 
 ## 架構（MVVM 三層）
 
+
 | 層 | 角色 | 代表性檔案 |
-|----|------|-----------|
+| ---------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **View（`ui/`）** | Jetpack Compose 純 UI，不含業務邏輯 | `HomeScreen`、`MapScreen`、`ChatAssistantScreen`、`SettingsScreen`、`FloorDetectionScreen`、`NodeCollectorScreen`、`LoginScreen` |
 | **ViewModel（`viewmodel/`）** | 業務邏輯、StateFlow 狀態 | `MapViewModel`、`BleViewModel`、`ChatViewModel`、`AuthViewModel`、`SettingsViewModel`、`NodeCollectorViewModel` |
 | **Model / Data（`data/`、`model/`）** | 感測器、Firebase、Room、地圖路網 | `IndoorGraph`、`WifiScanner`、`WiFiFloorResolver`、`BleService`、`SensorFloorResolver`、`PhoneBarometerReader`、`PhoneStepReader`、`FirebaseRepository`、`HomepageTabRepository`、`CsieNewsRepository`、`FootprintRepository` |
+
 
 ```text
 com.example.schoolgps/
@@ -95,13 +100,13 @@ com.example.schoolgps/
 ### 設定金鑰
 
 1. **Mapbox 下載 Token** → 專案根目錄 `gradle.properties`：
-   ```properties
+  ```properties
    MAPBOX_DOWNLOADS_TOKEN=sk.eyJ1Ijo...（你的 Mapbox secret token）
-   ```
+  ```
 2. **Gemini API Key**（可選）→ `local.properties`（亦可於 App 設定頁輸入個人 key 覆蓋）：
-   ```properties
+  ```properties
    GEMINI_API_KEY=AIza...
-   ```
+  ```
 3. 將 Firebase Console 下載的 `google-services.json` 放到 `app/`。
 
 ### 建置與執行
@@ -121,10 +126,11 @@ Android Studio → Sync Project → Run。
 
 ### 路網治理腳本（`scripts/`，不部署到 App）
 
-完整盤點見 [`scripts/README.md`](scripts/README.md)；治理規則見 `.cursor/rules/scripts-governance.mdc`。
+完整盤點見 `[scripts/README.md](scripts/README.md)`；治理規則見 `.cursor/rules/scripts-governance.mdc`。
+
 
 | 腳本 | 用途 | 是否改檔 |
-|------|------|---------|
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------- |
 | `verify_graph_health.py` / `verify_path_health.py` / `verify_shaft_integrity.py` | 結構 / 路徑成功率 / 豎井完整性檢查 | ❌ |
 | `run_floor_planning_check.py` | 一鍵執行樓層路徑規劃檢查固定流程 | ❌ |
 | `mcp_task_router.py` | 依任務描述建議 MCP 呼叫順序（Pandas → GIS → Mapbox） | ❌ |
@@ -135,20 +141,23 @@ Android Studio → Sync Project → Run。
 | `fetch_ncut_homepage_tabs.py` | 校網 nav-tabs 爬蟲 → RTDB `ncut_homepage_tabs/` | 寫 Firebase |
 | `fetch_csie_news.py` | 資工系 ajax 公告爬蟲 → RTDB `csie_news/` | 寫 Firebase |
 
+
 GitHub Actions：`.github/workflows/ncut_tabs_cron.yml` 每小時執行上述兩支爬蟲（`workflow_dispatch` 可手動觸發）。
 
 ---
 
 ## Firebase RTDB 資料路徑
 
+
 | 路徑 | 用途 | 寫入來源 |
-|------|------|---------|
+| ------------------------------------------------- | --------------- | ----------------------------- |
 | `school_faq` | 常見問答 | Firebase Console（唯讀給 App） |
 | `user_quotas/$uid` | 每帳號 Gemini 剩餘額度 | App 讀寫 |
 | `ncut_homepage_tabs` / `ncut_homepage_tabs_index` | 校級首頁 tab 結構化內容 | `fetch_ncut_homepage_tabs.py` |
 | `csie_news` / `csie_news_index` | 資工系各分類公告 | `fetch_csie_news.py` |
 
-規則範本見 [`scripts/_rtdb_rules.current.json`](scripts/_rtdb_rules.current.json)（需部署至 Firebase Console）。
+
+規則範本見 `[scripts/_rtdb_rules.current.json](scripts/_rtdb_rules.current.json)`（需部署至 Firebase Console）。
 
 ---
 
@@ -165,11 +174,11 @@ GitHub Actions：`.github/workflows/ncut_tabs_cron.yml` 每小時執行上述兩
 
 ## 文件
 
-- 問題追蹤與修復記錄：[`bug.md`](bug.md)（共 50 筆，BUG-001 ~ BUG-050）
-- 採集與工作流程：[`docs/footprint_to_graph_workflow.md`](docs/footprint_to_graph_workflow.md)、[`docs/node_collector_operation_guide.md`](docs/node_collector_operation_guide.md)
-- 目錄擴充建議：[`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md)
-- WiFi 現場量測：[`docs/wifi_rssi_fieldwork.md`](docs/wifi_rssi_fieldwork.md)
-- 路網腳本盤點：[`scripts/README.md`](scripts/README.md)
+- 問題追蹤與修復記錄：`[bug.md](bug.md)`（共 50 筆，BUG-001 ~ BUG-050）
+- 採集與工作流程：`[docs/footprint_to_graph_workflow.md](docs/footprint_to_graph_workflow.md)`、`[docs/node_collector_operation_guide.md](docs/node_collector_operation_guide.md)`
+- 目錄擴充建議：`[docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md)`
+- WiFi 現場量測：`[docs/wifi_rssi_fieldwork.md](docs/wifi_rssi_fieldwork.md)`
+- 路網腳本盤點：`[scripts/README.md](scripts/README.md)`
 
 ---
 
